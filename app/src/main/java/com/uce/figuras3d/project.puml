@@ -1,0 +1,52 @@
+@startuml
+'https://plantuml.com/class-diagram
+
+
+class MainActivity {
+    - MyGLSurfaceView surfaceView
+    + onCreate(Bundle): void
+}
+
+class MyGLSurfaceView {
+    - MyGLRenderer renderer
+    + MyGLSurfaceView(Context)
+}
+
+class MyGLRenderer {
+    - float[] mProjectionMatrix
+    - float[] mViewMatrix
+    - float[] mModelMatrix
+    - float[] mMVPMatrix
+    - Cube cube
+    + onSurfaceCreated(GL10, EGLConfig): void
+    + onSurfaceChanged(GL10, int, int): void
+    + onDrawFrame(GL10): void
+    + static loadShader(int, String): int
+}
+
+class Cube {
+    - FloatBuffer vertexBuffer
+    - ShortBuffer shortBuffer
+    - int mProgram
+    - int mvpMatrixHandle
+    - int positionHandle
+    - int colorHandle
+    - float[] cubeCoords
+    - float[][] faceColors
+    - short[] drawOrder
+    - String vertexShadderCode
+    - String fragmentShadderCode
+    + Cube(float[])
+    + draw(float[]): void
+}
+
+'====================
+' Relaciones
+'====================
+
+MainActivity --> MyGLSurfaceView : crea
+MyGLSurfaceView --> MyGLRenderer : crea y usa
+MyGLRenderer --> Cube : crea y dibuja
+Cube ..> MyGLRenderer : usa método estático (loadShader)
+
+@enduml
