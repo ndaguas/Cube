@@ -6,6 +6,8 @@ Esta clase Java implementa un cubo tridimensional utilizando OpenGL ES 2.0 para 
 
 ## Estructura
 
+- Ver el issue #
+
 La clase `Cube` encapsula toda la lógica necesaria para:
 - Definir los vértices y el orden de dibujo.
 - Aplicar una matriz MVP (Model-View-Projection).
