@@ -14,7 +14,7 @@ La clase `Cube` encapsula toda la lógica necesaria para:
 
 ---
 
-## 🚀 Cómo se usa
+##  Cómo se usa?
 
 1. **Inicialización:**
    ```java
