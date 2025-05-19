@@ -6,7 +6,7 @@ Esta clase Java implementa un cubo tridimensional utilizando OpenGL ES 2.0 para 
 
 ## Estructura
 
-[- Ver el issue #1](https://github.com/ndaguas/Cube/issues/1)
+![Image](https://github.com/user-attachments/assets/7a93af7f-9ebd-4504-96bb-aa386bb1ab13)
 
 La clase `Cube` encapsula toda la lógica necesaria para:
 - Definir los vértices y el orden de dibujo.
