@@ -77,7 +77,7 @@ private final float[] mProjectionMatrix = new float[16];
 ```
 ##  Cómo se usa?
 
-**Inicialización:**
+1. **Inicialización:**
    ```java
    float[] coords = {
        -1, -1, -1,   // 0 (A)
