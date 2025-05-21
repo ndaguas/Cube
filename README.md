@@ -14,31 +14,27 @@ La clase `Cube` encapsula toda la lógica necesaria para:
 - Usar shaders personalizados para el renderizado.
 - Dibujar cada una de las 6 caras del cubo con un color distinto.
 
----
+Cabe recalcar el orden en el que se dibujaran los triangulos que conforman el cubo
+ ```java
+private final short[] drawOrder = {
+            // cara derecha
+            0, 1, 2, 0, 2, 3,  //Triangulos ABC Y ACD
+            // cara izquierda
+            4, 5, 6, 4, 6, 7,  //Triangulos EFG Y EGH
+            // cara inferior
+            0, 1, 5, 0, 5, 4,  //Triangulos ABF y AEF
+            // cara superior
+            2, 3, 7, 2, 7, 6,  //Triangulo BCG Y BGF
+            // cara trasera
+            0, 3, 7, 0, 7, 4,  //Triangulos ADH y AHE
+            // cara frontal
+            1, 2, 6, 1, 6, 5   //Triangulos BCG Y AHE
+    };  
+```
 
-##  Cómo se usa?
-
-1. **Inicialización:**
-   ```java
-   float[] coords = {
-       -1, -1, -1,   // 0
-        1, -1, -1,   // 1
-        1,  1, -1,   // 2
-       -1,  1, -1,   // 3
-       -1, -1,  1,   // 4
-        1, -1,  1,   // 5
-        1,  1,  1,   // 6
-       -1,  1,  1    // 7
-   };
-   Cube cube = new Cube(coords);
-   ```
-
-2. **Dibujo en `onDrawFrame`:**
-   ```java
-   cube.draw(mvpMatrix);
-   ```
 
 ---
+
 
 ## Componentes principales
 
@@ -71,6 +67,57 @@ La clase `Cube` encapsula toda la lógica necesaria para:
 El método `draw(float[] mvpMatrix)` aplica la **matriz MVP** (`uMVPMatrix`) que transforma las coordenadas del cubo desde el espacio de modelo hasta el espacio de pantalla.
 
 ---
+## Renderer
+Definiremos el renderer con cuatro variables de tipo float[] las cuales dinirian nuestras matrices modelo,vista y proyeccion.
+ ```java
+private final float[] mProjectionMatrix = new float[16];
+    private final float[] mViewMatrix = new float[16];
+    private final float[] mModelMatrix = new float[16];
+    private final float[] mMVPMatrix = new float[16];   
+```
+##  Cómo se usa?
+
+**Inicialización:**
+   ```java
+   float[] coords = {
+       -1, -1, -1,   // 0 (A)
+        1, -1, -1,   // 1 (B)
+        1,  1, -1,   // 2 (C)
+       -1,  1, -1,   // 3 (D)
+       -1, -1,  1,   // 4 (E)
+        1, -1,  1,   // 5 (F)
+        1,  1,  1,   // 6 (G)
+       -1,  1,  1    // 7 (H)
+   };
+   Cube cube = new Cube(coords);
+   ```
+
+2. **Dibujo en `onDrawFrame`:**
+   El .draw() ocupara la matriz mMVPMatrix como parametro para ejecutar el onDrawFrame(), ademas definiremos la configuracion de la cámara a criterio personal.
+   ```java
+    public void onDrawFrame(GL10 gl) {
+        GLES20.glClear(GLES20.GL_COLOR_BUFFER_BIT | GLES20.GL_DEPTH_BUFFER_BIT);
+        // Configurar la cámara
+        Matrix.setLookAtM(mViewMatrix, 0,
+                -2.0f, -2.0f, -2.0f, // Posición de la cámara
+                0.0f, 0.0f, 0.0f, // Centro de la escena
+                0.0f, 1.0f, 0.0f); // Vector "arriba"
+
+
+        // Combinar matrices: MVP = Proyección * Vista * Modelo
+        Matrix.multiplyMM(mMVPMatrix,0,mProjectionMatrix,0,mViewMatrix,0);
+
+        // Dibujar el cubo con la matriz transformada
+        cube.draw(mMVPMatrix);
+    }
+   ```
+
+---
+
+
+
+---
+
 
 ##  Requisitos
 
@@ -83,4 +130,4 @@ El método `draw(float[] mvpMatrix)` aplica la **matriz MVP** (`uMVPMatrix`) que
 ## Autores
 
 - Nelson David Aguas
-- Francisco Sebástian Salazar
+- Francisco Sebastián Salazar
